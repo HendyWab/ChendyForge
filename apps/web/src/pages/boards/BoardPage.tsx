@@ -1,7 +1,12 @@
 import BoardColumn from "../../components/board/BoardColumn"
-import { columns, issues } from "../../data/boardData"
+import { columns } from "../../data/boardData"
+import { useBoardStore } from "../../store/boardStore"
 
 export default function BoardPage() {
+  const issues = useBoardStore(
+    (state) => state.issues
+  )
+
   return (
     <div>
       <div className="mb-8">
@@ -14,11 +19,13 @@ export default function BoardPage() {
         </p>
       </div>
 
-      <div className="flex gap-6 overflow-x-auto pb-4">
+      <div className="flex gap-6 overflow-x-auto">
         {columns.map((column) => {
-          const filteredIssues = issues.filter(
-            (issue) => issue.columnId === column.id
-          )
+          const filteredIssues =
+            issues.filter(
+              (issue) =>
+                issue.columnId === column.id
+            )
 
           return (
             <BoardColumn
