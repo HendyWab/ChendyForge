@@ -1,16 +1,19 @@
 interface Props {
+  id: string
   title: string
   priority: string
   assignee: string
 }
 
 export default function IssueCard({
+  id,
   title,
   priority,
   assignee,
 }: Props) {
   return (
     <div
+      data-issue-id={id}
       className="
         group relative overflow-hidden
         rounded-2xl border border-zinc-800/80
@@ -20,6 +23,8 @@ export default function IssueCard({
         hover:-translate-y-1
         hover:border-violet-500/40
         hover:shadow-[0_0_30px_rgba(124,58,237,0.15)]
+        cursor-grab
+        active:cursor-grabbing
       "
     >
       {/* Glow Overlay */}
@@ -47,8 +52,8 @@ export default function IssueCard({
           <div
             className="
               flex h-8 w-8 items-center justify-center
-              rounded-full bg-cyan-500/20 text-sm
-              font-medium text-cyan-300
+              rounded-full bg-cyan-500/20
+              text-sm font-medium text-cyan-300
             "
           >
             {assignee}
