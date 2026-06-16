@@ -1,3 +1,6 @@
+import { DndContext } from "@dnd-kit/core"
+import type { DragEndEvent } from "@dnd-kit/core"
+
 import BoardColumn from "../../components/board/BoardColumn"
 import { columns } from "../../data/boardData"
 import { useBoardStore } from "../../store/boardStore"
@@ -6,6 +9,23 @@ export default function BoardPage() {
   const issues = useBoardStore(
     (state) => state.issues
   )
+
+  const moveIssue = useBoardStore(
+    (state) => state.moveIssue
+  )
+
+  function handleDragEnd(
+    event: DragEndEvent
+  ) {
+    const { active, over } = event
+
+    if (!over) return
+
+    moveIssue(
+      active.id.toString(),
+      over.id.toString()
+    )
+  }
 
   return (
     <div>
@@ -19,23 +39,26 @@ export default function BoardPage() {
         </p>
       </div>
 
-      <div className="flex gap-6 overflow-x-auto">
-        {columns.map((column) => {
-          const filteredIssues =
-            issues.filter(
-              (issue) =>
-                issue.columnId === column.id
-            )
+      <DndContext onDragEnd={handleDragEnd}>
+        <div className="flex gap-6 overflow-x-auto pb-4">
+          {columns.map((column) => {
+            const filteredIssues =
+              issues.filter(
+                (issue) =>
+                  issue.columnId === column.id
+              )
 
-          return (
-            <BoardColumn
-              key={column.id}
-              title={column.title}
-              issues={filteredIssues}
-            />
-          )
-        })}
-      </div>
+            return (
+              <BoardColumn
+                key={column.id}
+                id={column.id}
+                title={column.title}
+                issues={filteredIssues}
+              />
+            )
+          })}
+        </div>
+      </DndContext>
     </div>
   )
 }
