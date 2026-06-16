@@ -21,7 +21,7 @@ export default function Sidebar() {
     <aside className="w-72 border-r border-zinc-800 bg-zinc-900">
       <div className="border-b border-zinc-800 p-6">
         <h1 className="text-2xl font-bold tracking-tight">
-         FluxForge
+         ChendyForge
         </h1>
 
         <p className="mt-1 text-sm text-zinc-400">
